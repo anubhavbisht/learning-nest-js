@@ -1,0 +1,7 @@
+## get request for users controller
+
+GET http://localhost:3000/users
+
+GET http://localhost:3000/users/12345
+
+GET http://localhost:3000/users/12345?limit=10&offset=0
