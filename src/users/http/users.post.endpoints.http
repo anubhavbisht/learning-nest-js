@@ -10,5 +10,5 @@ Content-Type: application/json
     "firstName": "anubhav",
     "lastName": "bisht",
     "email": "anubhavbisht98@gmail.com",
-    "password" : "@asdfgh345",
+    "password" : "@asdfgh345"
 }
