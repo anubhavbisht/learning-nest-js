@@ -13,7 +13,7 @@ async function bootstrap() {
     }),
   );
   const config = new DocumentBuilder()
-    .setTitle('Learning NestJS - Blog app API')
+    .setTitle('Learning NestJS and REST API')
     .setDescription('Use the base API URL as http://localhost:3000')
     .setTermsOfService('http://localhost:3000/terms-of-service')
     .setLicense(
@@ -24,7 +24,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('nest-api-doc', app, document);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

@@ -26,16 +26,18 @@ export class UsersController {
   })
   @ApiQuery({
     name: 'limit',
-    type: String,
+    type: 'number',
     description: 'The upper limit of pages you want the pagination to return',
     required: false,
+    example: 10,
   })
   @ApiQuery({
     name: 'page',
-    type: String,
+    type: 'number',
     description:
       'The position of the page number that you want the API to return',
     required: false,
+    example: 1,
   })
   @ApiResponse({
     status: 200,
