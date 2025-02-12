@@ -50,6 +50,8 @@ export class CreatePostDto {
   })
   @IsString()
   @IsNotEmpty()
+  @MinLength(5)
+  @MaxLength(100)
   @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
     message:
       'A slug should be all small letters and uses only "-" and without spaces. For example "my-url"',
@@ -99,6 +101,8 @@ export class CreatePostDto {
   })
   @IsString()
   @IsOptional()
+  @MinLength(10)
+  @MaxLength(200)
   @IsUrl({}, { message: 'featuredImageUrl must be a valid URL' })
   featuredImageUrl?: string;
 
