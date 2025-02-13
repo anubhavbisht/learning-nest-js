@@ -1,30 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
+import { Repository } from 'typeorm';
+import { Post } from '../post.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { MetaOption } from 'src/meta-options/meta-option.entity';
 
 @Injectable()
 export class PostsService {
-  constructor(public readonly usersService: UsersService) {}
-  public findAll(userId: string) {
-    // Users Service
-    // Find A User
-    const user = this.usersService.findOneById(userId);
-    return [
-      {
-        user,
-        title: 'Test Tile',
-        content: 'Test Content',
-      },
-      {
-        user,
-        title: 'Test Tile 2',
-        content: 'Test Content 2',
-      },
-    ];
+  constructor(
+    public readonly usersService: UsersService,
+    @InjectRepository(Post)
+    private readonly postRepository: Repository<Post>,
+    @InjectRepository(MetaOption)
+    private readonly metaOptionRepository: Repository<MetaOption>,
+  ) {}
+  public async findAll(userId: string) {
+    const posts = await this.postRepository.find({
+      // relations: {
+      //   metaOptions: true,
+      // },
+    });
+
+    return posts;
   }
 
-  public createPost(createPostDto: CreatePostDto) {
-    console.log('Hello from service createPost');
-    return createPostDto;
+  public async createPost(createPostDto: CreatePostDto) {
+    let post = this.postRepository.create(createPostDto);
+    post = await this.postRepository.save(post);
+    return post;
+  }
+
+  public async delete(id: number) {
+    const post = await this.postRepository.findOneBy({ id });
+    await this.postRepository.delete(id);
+    if (post.metaOptions) {
+      await this.metaOptionRepository.delete(post.metaOptions.id);
+    }
+    return { deleted: true, id: post.id };
   }
 }

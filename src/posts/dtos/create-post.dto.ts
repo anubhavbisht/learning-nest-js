@@ -17,7 +17,7 @@ import {
 } from 'class-validator';
 import { PostTypeEnum } from '../enums/postType.enum';
 import { StatusTypeEnum } from '../enums/statusType.enum';
-import { CreateMetaOptionsDtos } from './create-post-meta-options.dto';
+import { CreatePostMetaOptionsDto } from '../../meta-options/dtos/create-post-meta-options.dto';
 
 export class CreatePostDto {
   @ApiProperty({
@@ -79,7 +79,6 @@ export class CreatePostDto {
   @IsString()
   @IsOptional()
   @MinLength(10)
-  @MaxLength(500)
   content?: string;
 
   @ApiPropertyOptional({
@@ -130,29 +129,21 @@ export class CreatePostDto {
   tags?: string[];
 
   @ApiPropertyOptional({
-    description: 'Meta options related to each post',
-    example: [{ key: 'sfdsf', value: 'asdf' }],
-    type: 'array',
+    type: 'object',
+    required: false,
     items: {
       type: 'object',
       properties: {
-        key: {
-          type: 'string',
-          description: 'any string identifier',
-          example: 'customId',
-        },
-        value: {
-          type: 'any',
-          description: 'any value you want to store as info for key',
-          example: '10',
+        metavalue: {
+          type: 'json',
+          description: 'The metaValue is a JSON string',
+          example: '{"sidebarEnabled": true,}',
         },
       },
     },
-    required: false,
   })
   @IsOptional()
-  @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => CreateMetaOptionsDtos)
-  metaOptions?: CreateMetaOptionsDtos[];
+  @Type(() => CreatePostMetaOptionsDto)
+  metaOptions?: CreatePostMetaOptionsDto | null;
 }

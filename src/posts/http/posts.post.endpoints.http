@@ -1,25 +1,30 @@
 ## post request for users controller
-
 POST http://localhost:3000/posts
 Content-Type: application/json
-
 {
   "title": "What's new with NestJS",
   "postType": "post",
-  "slug": "new-with-nest-js",
+  "slug": "new-with-nestjs3",
   "status": "draft",
-  "content": "post-content",
-  "schema": "{\r\n    \"@context\": \"https:\/\/schema.org\",\r\n    \"@type\": \"Person\"\r\n  }",
+  "content": "test content",
+  "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"Person\"\r\n }",
   "featuredImageUrl": "http://localhost.com/images/image1.jpg",
   "publishOn": "2024-03-16T07:46:32+0000",
-  "tags": [
-    "nestJS",
-    "typescript"
-  ],
-  "metaOptions": [
-    {
-      "key": "testKey",
-      "value": 20
+  //"tags": ["nestjs", "typescript"],
+  "metaOptions" : {
+    "metaValue": "{ \"sidebarEnabled\": true, \"footerActive\": true }"
     }
-  ]
+}
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+{
+  "title": "What's new with NestJS",
+  "postType": "post",
+  "slug": "new-with-nestjs-1",
+  "status": "draft",
+  "content": "test content",
+  "schema": "{\r\n \"@context\": \"https:\/\/schema.org\",\r\n \"@type\": \"Person\"\r\n }",
+  "featuredImageUrl": "http://localhost.com/images/image1.jpg",
+  "publishOn": "2024-03-16T07:46:32+0000"
 }
