@@ -4,21 +4,23 @@ import { CreatePostDto } from '../dtos/create-post.dto';
 import { Repository } from 'typeorm';
 import { Post } from '../post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MetaOption } from 'src/meta-options/meta-option.entity';
+import { TagsService } from 'src/tags/providers/tags.service';
+import { UpdatePostDto } from '../dtos/update-post.dto';
 
 @Injectable()
 export class PostsService {
   constructor(
-    public readonly usersService: UsersService,
+    private readonly usersService: UsersService,
+    private readonly tagsService: TagsService,
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
-    @InjectRepository(MetaOption)
-    private readonly metaOptionRepository: Repository<MetaOption>,
   ) {}
-  public async findAll(userId: string) {
+  public async findAll() {
     const posts = await this.postRepository.find({
       // relations: {
       //   metaOptions: true,
+      //   author: true,
+      //   tags: true,
       // },
     });
 
@@ -26,17 +28,36 @@ export class PostsService {
   }
 
   public async createPost(createPostDto: CreatePostDto) {
-    let post = this.postRepository.create(createPostDto);
+    const author = await this.usersService.findOneById(createPostDto.authorId);
+    const tags = await this.tagsService.findMultipleTags(createPostDto.tags);
+    let post = this.postRepository.create({
+      ...createPostDto,
+      author,
+      tags,
+    });
     post = await this.postRepository.save(post);
     return post;
   }
 
+  public async update(patchPostDto: UpdatePostDto) {
+    const tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    const post = await this.postRepository.findOneBy({
+      id: patchPostDto.id,
+    });
+    post.title = patchPostDto.title ?? post.title;
+    post.content = patchPostDto.content ?? post.content;
+    post.status = patchPostDto.status ?? post.status;
+    post.postType = patchPostDto.postType ?? post.postType;
+    post.slug = patchPostDto.slug ?? post.slug;
+    post.featuredImageUrl =
+      patchPostDto.featuredImageUrl ?? post.featuredImageUrl;
+    post.publishOn = patchPostDto.publishOn ?? post.publishOn;
+    post.tags = tags;
+    return await this.postRepository.save(post);
+  }
+
   public async delete(id: number) {
-    const post = await this.postRepository.findOneBy({ id });
     await this.postRepository.delete(id);
-    if (post.metaOptions) {
-      await this.metaOptionRepository.delete(post.metaOptions.id);
-    }
-    return { deleted: true, id: post.id };
+    return { deleted: true, id };
   }
 }

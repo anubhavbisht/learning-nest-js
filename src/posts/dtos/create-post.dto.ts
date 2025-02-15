@@ -4,6 +4,7 @@ import {
   ArrayNotEmpty,
   IsArray,
   IsEnum,
+  IsInt,
   IsISO8601,
   IsJSON,
   IsNotEmpty,
@@ -116,17 +117,16 @@ export class CreatePostDto {
   publishOn?: Date;
 
   @ApiPropertyOptional({
-    description: 'Tags related to each post',
-    example: ['hi', 'jelly'],
+    description: 'Tags ids for the post',
+    example: [1, 2],
     type: 'array',
     required: false,
   })
   @IsOptional()
   @IsArray({ message: 'tags must be an array' })
   @ArrayNotEmpty({ message: 'tags cannot be empty' })
-  @MinLength(3, { each: true })
-  @IsString({ each: true, message: 'Each tag must be a string' })
-  tags?: string[];
+  @IsInt({ each: true, message: 'Each tag must be a number' })
+  tags?: number[];
 
   @ApiPropertyOptional({
     type: 'object',
@@ -146,4 +146,14 @@ export class CreatePostDto {
   @ValidateNested({ each: true })
   @Type(() => CreatePostMetaOptionsDto)
   metaOptions?: CreatePostMetaOptionsDto | null;
+
+  @ApiProperty({
+    description: 'Author of the post',
+    example: 1,
+    type: 'integer',
+    required: true,
+  })
+  @IsInt()
+  @IsNotEmpty()
+  authorId: number;
 }

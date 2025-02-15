@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   ParseIntPipe,
   Patch,
   Post,
@@ -19,9 +18,9 @@ import { UpdatePostDto } from './dtos/update-post.dto';
 export class PostsController {
   constructor(public readonly postsService: PostsService) {}
 
-  @Get('/:userId?')
-  public getPosts(@Param('userId') userId: string) {
-    return this.postsService.findAll(userId);
+  @Get()
+  public getPosts() {
+    return this.postsService.findAll();
   }
 
   @ApiOperation({
@@ -47,7 +46,7 @@ export class PostsController {
   })
   @Patch()
   public updatePost(@Body() updatePostDto: UpdatePostDto) {
-    return updatePostDto;
+    return this.postsService.update(updatePostDto);
   }
 
   @ApiOperation({

@@ -12,7 +12,7 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @Inject(forwardRef(() => AuthService))
-    public readonly authService: AuthService,
+    private readonly authService: AuthService,
   ) {}
   public findAll(
     getUserParamDto: GetUsersParamDto,
@@ -32,12 +32,11 @@ export class UsersService {
       },
     ];
   }
-  public findOneById(id: string) {
-    return {
-      id: 1234,
-      firstName: 'Alice',
-      email: 'alice@doe.com',
-    };
+  public async findOneById(id: number) {
+    const user = await this.userRepository.findOneBy({
+      id,
+    });
+    return user;
   }
   public async createUser(createUserDto: CreateUserDto) {
     const existingUser = await this.userRepository.findOne({
