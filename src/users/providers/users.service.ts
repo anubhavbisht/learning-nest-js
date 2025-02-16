@@ -5,14 +5,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
+import { ConfigService } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
+import profileConfig from '../config/profile.config';
 
 @Injectable()
 export class UsersService {
   constructor(
+    private readonly configService: ConfigService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
+    @Inject(profileConfig.KEY)
+    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
   ) {}
   public findAll(
     getUserParamDto: GetUsersParamDto,
@@ -21,6 +27,9 @@ export class UsersService {
   ) {
     const isAuth = this.authService.isAuth();
     console.log(isAuth);
+    const envVar = this.configService.get('S3_BUCKET');
+    console.log(envVar);
+    console.log(this.profileConfiguration.apiKey);
     return [
       {
         firstName: 'John',
