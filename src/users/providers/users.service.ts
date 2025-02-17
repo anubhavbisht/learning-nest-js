@@ -5,19 +5,21 @@ import {
   Injectable,
   RequestTimeoutException,
 } from '@nestjs/common';
-import { GetUsersParamDto } from '../dtos/get-users-params.dto';
-import { AuthService } from 'src/auth/providers/auth.service';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../user.entity';
+import { AuthService } from 'src/auth/providers/auth.service';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { ConfigService } from '@nestjs/config';
-import { ConfigType } from '@nestjs/config';
 import profileConfig from '../config/profile.config';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { GetUsersParamDto } from '../dtos/get-users-params.dto';
+import { User } from '../user.entity';
+import { CreateManyUsersProvider } from './createManyUsers.service';
+import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
+    private readonly usersCreateManyProvider: CreateManyUsersProvider,
     private readonly configService: ConfigService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -99,5 +101,11 @@ export class UsersService {
       );
     }
     return newUser;
+  }
+
+  public async createManyUsers(createManyUsersDto: CreateManyUsersDto) {
+    return await this.usersCreateManyProvider.createManyUsers(
+      createManyUsersDto,
+    );
   }
 }
