@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { Repository } from 'typeorm';
@@ -40,10 +44,38 @@ export class PostsService {
   }
 
   public async update(patchPostDto: UpdatePostDto) {
-    const tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
-    const post = await this.postRepository.findOneBy({
-      id: patchPostDto.id,
-    });
+    let tags = undefined;
+    let post = undefined;
+    try {
+      tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    } catch (e) {
+      console.error(e, 'Error in service update');
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to database',
+        },
+      );
+    }
+    if (!tags || tags.length !== patchPostDto.tags.length) {
+      throw new BadRequestException('Please check your tag ids');
+    }
+    try {
+      post = await this.postRepository.findOneBy({
+        id: patchPostDto.id,
+      });
+    } catch (e) {
+      console.error(e, 'Error in service update');
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to database',
+        },
+      );
+    }
+    if (!post) {
+      throw new BadRequestException('Post does not exist');
+    }
     post.title = patchPostDto.title ?? post.title;
     post.content = patchPostDto.content ?? post.content;
     post.status = patchPostDto.status ?? post.status;
@@ -53,7 +85,18 @@ export class PostsService {
       patchPostDto.featuredImageUrl ?? post.featuredImageUrl;
     post.publishOn = patchPostDto.publishOn ?? post.publishOn;
     post.tags = tags;
-    return await this.postRepository.save(post);
+    try {
+      await this.postRepository.save(post);
+    } catch (e) {
+      console.error(e, 'Error in service update');
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to database',
+        },
+      );
+    }
+    return post;
   }
 
   public async delete(id: number) {
