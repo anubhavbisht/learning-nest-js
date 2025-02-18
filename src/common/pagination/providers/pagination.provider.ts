@@ -12,7 +12,7 @@ export class PaginationProvider {
   public async paginateQuery<Entity extends ObjectLiteral>(
     paginateQueryDto: PaginationQueryDto,
     repository: Repository<Entity>,
-  ) {
+  ): Promise<PaginateQuery<Entity>> {
     const result = await repository.find({
       take: paginateQueryDto.limit,
       skip: (paginateQueryDto.page - 1) * paginateQueryDto.limit,
