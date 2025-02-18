@@ -8,6 +8,7 @@ import { PostsModule } from './posts/posts.module';
 import { TagsModule } from './tags/tags.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PaginationModule } from './common/pagination.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import enviromentValidation from './config/env.validation';
@@ -42,6 +43,7 @@ const ENV = process.env.NODE_ENV;
     }),
     TagsModule,
     MetaOptionsModule,
+    PaginationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
