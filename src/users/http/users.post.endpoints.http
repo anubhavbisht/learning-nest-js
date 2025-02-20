@@ -9,7 +9,7 @@ Content-Type: application/json
 {
     "firstName": "anubhav",
     "lastName": "bisht",
-    "email": "anubhavbisht98@gmail.com",
+    "email": "anubhavbisht1900@gmail.com",
     "password" : "@asdfgh345"
 }
 
@@ -19,15 +19,15 @@ Content-Type: application/json
 {
 "users": [
     {
-      "firstName": "Mark",
+      "firstName": "sadfas",
       "lastName": "Doe",
-      "email": "anubhavbisht@gmail.com",
+      "email": "anubhavbishdasdt@gmail.com",
       "password": "Password123#"
     },
     {
-      "firstName": "Tom",
+      "firstName": "Tasdfsafom",
       "lastName": "Doe",
-      "email": "tom@doe.com",
+      "email": "tofsdfsm@doe.com",
       "password": "Password123#"
     }
   ]

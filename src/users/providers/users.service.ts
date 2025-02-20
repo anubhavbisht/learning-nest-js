@@ -13,12 +13,16 @@ import profileConfig from '../config/profile.config';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { GetUsersParamDto } from '../dtos/get-users-params.dto';
 import { User } from '../user.entity';
-import { CreateManyUsersProvider } from './createManyUsers.service';
+import { CreateManyUsersProvider } from './createManyUsers.provider';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { CreateUserProvider } from './createUser.provider';
+import { FindUserByEmailProvider } from './findUserByEmail.provider';
 
 @Injectable()
 export class UsersService {
   constructor(
+    private readonly findUserByEmailProvider: FindUserByEmailProvider,
+    private readonly createUserProvider: CreateUserProvider,
     private readonly usersCreateManyProvider: CreateManyUsersProvider,
     private readonly configService: ConfigService,
     @InjectRepository(User)
@@ -73,39 +77,16 @@ export class UsersService {
   }
 
   public async createUser(createUserDto: CreateUserDto) {
-    let existingUser = undefined;
-    try {
-      existingUser = await this.userRepository.findOne({
-        where: {
-          email: createUserDto.email,
-        },
-      });
-    } catch (e) {
-      console.error(e, 'Error in service createUser');
-      throw new RequestTimeoutException(
-        'Unable to process your request,please try again later',
-        { description: 'Error connecting to the database' },
-      );
-    }
-    if (existingUser) {
-      throw new BadRequestException('User with this email id already exists.');
-    }
-    let newUser = this.userRepository.create(createUserDto);
-    try {
-      newUser = await this.userRepository.save(newUser);
-    } catch (e) {
-      console.error(e, 'Error in service createUser');
-      throw new RequestTimeoutException(
-        'Unable to process your request,please try again later',
-        { description: 'Error connecting to the database' },
-      );
-    }
-    return newUser;
+    return await this.createUserProvider.createUser(createUserDto);
   }
 
   public async createManyUsers(createManyUsersDto: CreateManyUsersDto) {
     return await this.usersCreateManyProvider.createManyUsers(
       createManyUsersDto,
     );
+  }
+
+  public async findUserByEmail(email: string) {
+    return await this.findUserByEmailProvider.findUserByEmail(email);
   }
 }

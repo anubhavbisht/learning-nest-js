@@ -54,13 +54,7 @@ export class UsersController {
   }
 
   @Post()
-  public createUsers(
-    @Body() createUserDto: CreateUserDto,
-    @Headers() headers: any,
-    @Ip() ip: any,
-  ) {
-    console.log(headers);
-    console.log(ip);
+  public createUsers(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
 
