@@ -1,22 +1,11 @@
-import {
-  Body,
-  Controller,
-  DefaultValuePipe,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CreateManyUsersDto } from './dtos/create-many-users.dto';
-import { CreateUserDto } from './dtos/create-user.dto';
-import { GetUsersParamDto } from './dtos/get-users-params.dto';
-import { PatchUserDto } from './dtos/patch-user.dto';
-import { UsersService } from './providers/users.service';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { CreateManyUsersDto } from './dtos/create-many-users.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
+import { PatchUserDto } from './dtos/patch-user.dto';
+import { UsersService } from './providers/users.service';
 
 @Controller('users')
 @ApiTags('Users')
@@ -45,12 +34,8 @@ export class UsersController {
     description: 'Users fetched successfully based on the query',
   })
   @Get('/:id?')
-  public getUsers(
-    @Param() getUserParamDto: GetUsersParamDto,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ) {
-    return this.usersService.findAll(getUserParamDto, limit, page);
+  public getUsers() {
+    return this.usersService.findAll();
   }
 
   @Auth(AuthType.None)

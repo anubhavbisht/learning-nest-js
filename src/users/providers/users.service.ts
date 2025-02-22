@@ -10,11 +10,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { Repository } from 'typeorm';
 import profileConfig from '../config/profile.config';
+import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
-import { GetUsersParamDto } from '../dtos/get-users-params.dto';
 import { User } from '../user.entity';
 import { CreateManyUsersProvider } from './createManyUsers.provider';
-import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { CreateUserProvider } from './createUser.provider';
 import { FindUserByEmailProvider } from './findUserByEmail.provider';
 
@@ -33,13 +32,7 @@ export class UsersService {
     private readonly profileConfiguration: ConfigType<typeof profileConfig>,
   ) {}
 
-  public findAll(
-    getUserParamDto: GetUsersParamDto,
-    limit: number,
-    page: number,
-  ) {
-    const isAuth = this.authService.isAuth();
-    console.log(isAuth);
+  public findAll() {
     const envVar = this.configService.get('S3_BUCKET');
     console.log(envVar);
     console.log(this.profileConfiguration.apiKey);
