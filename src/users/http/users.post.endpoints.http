@@ -6,16 +6,17 @@ Content-Type: application/json
 
 POST http://localhost:3000/users
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImVtYWlsIjoiYW51YmhhdmJpc2h0MTAwMEBnbWFpbC5jb20iLCJpYXQiOjE3NDAxMDEyOTgsImV4cCI6MTc0MDEwNDg5OCwiYXVkIjoibG9jYWxob3N0OjMwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6MzAwMCJ9.twrNrCbBGR5kaP5CgrWSBQQsn5fKUVDLwethKFfOt6Q
 {
     "firstName": "anubhav",
     "lastName": "bisht",
-    "email": "anubhavbisht1900@gmail.com",
+    "email": "anubdasdhasssxcvgfdgddvbisht1900@gmail.com",
     "password" : "@asdfgh345"
 }
 
 POST http://localhost:3000/users/create-many
 Content-Type: application/json
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImVtYWlsIjoiYW51YmhhdmJpc2h0MTAwMEBnbWFpbC5jb20iLCJpYXQiOjE3NDAxMDEyOTgsImV4cCI6MTc0MDEwNDg5OCwiYXVkIjoibG9jYWxob3N0OjMwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6MzAwMCJ9.twrNrCbBGR5kaP5CgrWSBQQsn5fKUVDLwethKFfOt6Q
 {
 "users": [
     {

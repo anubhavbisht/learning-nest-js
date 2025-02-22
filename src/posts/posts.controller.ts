@@ -13,6 +13,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { UpdatePostDto } from './dtos/update-post.dto';
 import { GetPostDto } from './dtos/get-post.dto';
+import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -33,8 +35,11 @@ export class PostsController {
     type: 'string',
   })
   @Post()
-  public createPosts(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.createPost(createPostDto);
+  public createPosts(
+    @Body() createPostDto: CreatePostDto,
+    @ActiveUser() userDetails: ActiveUserData,
+  ) {
+    return this.postsService.createPost(createPostDto, userDetails);
   }
 
   @ApiOperation({

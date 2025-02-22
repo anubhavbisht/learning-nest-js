@@ -3,9 +3,9 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
+  IsDate,
   IsEnum,
   IsInt,
-  IsISO8601,
   IsJSON,
   IsNotEmpty,
   IsOptional,
@@ -112,7 +112,7 @@ export class CreatePostDto {
     type: 'string',
     required: false,
   })
-  @IsISO8601()
+  @IsDate()
   @IsOptional()
   publishOn?: Date;
 
@@ -146,14 +146,4 @@ export class CreatePostDto {
   @ValidateNested({ each: true })
   @Type(() => CreatePostMetaOptionsDto)
   metaOptions?: CreatePostMetaOptionsDto | null;
-
-  @ApiProperty({
-    description: 'Author of the post',
-    example: 1,
-    type: 'integer',
-    required: true,
-  })
-  @IsInt()
-  @IsNotEmpty()
-  authorId: number;
 }
