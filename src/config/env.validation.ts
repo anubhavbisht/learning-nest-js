@@ -17,4 +17,5 @@ export default Joi.object({
   JWT_REFRESH_TOKEN_TTL: Joi.number().default(86400),
   GOOGLE_AUTH_CLIENT_ID: Joi.string().required(),
   GOOGLE_AUTH_CLIENT_SECRET: Joi.string().required(),
+  API_VERSION: Joi.string().required(),
 });

@@ -35,8 +35,6 @@ export class GoogleAuthenticationService implements OnModuleInit {
       const loginTicket = await this.oauthClient.verifyIdToken({
         idToken: googleTokenDto.token,
       });
-      console.log(loginTicket);
-      console.log(loginTicket.getPayload());
       const {
         email,
         sub: googleId,

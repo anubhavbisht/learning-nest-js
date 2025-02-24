@@ -1,15 +1,10 @@
 import {
   BadRequestException,
-  forwardRef,
-  Inject,
   Injectable,
   RequestTimeoutException,
 } from '@nestjs/common';
-import { ConfigService, ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthService } from 'src/auth/providers/auth.service';
 import { Repository } from 'typeorm';
-import profileConfig from '../config/profile.config';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../user.entity';
@@ -28,19 +23,11 @@ export class UsersService {
     private readonly usersCreateManyProvider: CreateManyUsersProvider,
     private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
     private readonly createGooogleUserProvider: CreateGoogleUserProvider,
-    private readonly configService: ConfigService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
-    @Inject(profileConfig.KEY)
-    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
   ) {}
 
   public findAll() {
-    const envVar = this.configService.get('S3_BUCKET');
-    console.log(envVar);
-    console.log(this.profileConfiguration.apiKey);
     return [
       {
         firstName: 'John',
