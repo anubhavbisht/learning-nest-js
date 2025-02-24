@@ -9,6 +9,8 @@ import profileConfig from './config/profile.config';
 import { CreateManyUsersProvider } from './providers/createManyUsers.provider';
 import { CreateUserProvider } from './providers/createUser.provider';
 import { FindUserByEmailProvider } from './providers/findUserByEmail.provider';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google.provider';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 
 @Module({
   controllers: [UsersController],
@@ -17,6 +19,8 @@ import { FindUserByEmailProvider } from './providers/findUserByEmail.provider';
     CreateManyUsersProvider,
     CreateUserProvider,
     FindUserByEmailProvider,
+    FindOneByGoogleIdProvider,
+    CreateGoogleUserProvider,
   ],
   exports: [UsersService],
   imports: [

@@ -16,6 +16,9 @@ import { User } from '../user.entity';
 import { CreateManyUsersProvider } from './createManyUsers.provider';
 import { CreateUserProvider } from './createUser.provider';
 import { FindUserByEmailProvider } from './findUserByEmail.provider';
+import { FindOneByGoogleIdProvider } from './find-one-by-google.provider';
+import { CreateGoogleUserProvider } from './create-google-user.provider';
+import { GoogleUser } from '../interfaces/googleUser.interface';
 
 @Injectable()
 export class UsersService {
@@ -23,6 +26,8 @@ export class UsersService {
     private readonly findUserByEmailProvider: FindUserByEmailProvider,
     private readonly createUserProvider: CreateUserProvider,
     private readonly usersCreateManyProvider: CreateManyUsersProvider,
+    private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
+    private readonly createGooogleUserProvider: CreateGoogleUserProvider,
     private readonly configService: ConfigService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
@@ -81,5 +86,13 @@ export class UsersService {
 
   public async findUserByEmail(email: string) {
     return await this.findUserByEmailProvider.findUserByEmail(email);
+  }
+
+  public async findOneByGoogleId(googleId: string) {
+    return await this.findOneByGoogleIdProvider.findOneByGoogleId(googleId);
+  }
+
+  public async createGoogleUser(googleUser: GoogleUser) {
+    return await this.createGooogleUserProvider.createGoogleUser(googleUser);
   }
 }
