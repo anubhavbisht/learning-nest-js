@@ -8,9 +8,9 @@ POST http://localhost:3000/users
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsImVtYWlsIjoiYW51YmhhdmJpc2h0MTAwMEBnbWFpbC5jb20iLCJpYXQiOjE3NDAxMDEyOTgsImV4cCI6MTc0MDEwNDg5OCwiYXVkIjoibG9jYWxob3N0OjMwMDAiLCJpc3MiOiJsb2NhbGhvc3Q6MzAwMCJ9.twrNrCbBGR5kaP5CgrWSBQQsn5fKUVDLwethKFfOt6Q
 {
-    "firstName": "anubhav",
-    "lastName": "bisht",
-    "email": "asdagfdffg@gmail.com",
+    "firstName": "shanasya",
+    "lastName": "sisodya",
+    "email": "shanayasdisodiya@gmail.com",
     "password" : "@asdfgh345"
 }
 

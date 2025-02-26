@@ -8,4 +8,7 @@ export default registerAs('appConfig', () => ({
   awsCloudfrontUrl: process.env.AWS_CLOUDFRONT,
   awsAccessKey: process.env.AWS_ACCESS_KEY,
   awsSecretAccessKey: process.env.AWS_ACCESS_KEY_SECRET,
+  smtpMailHost: process.env.SMTP_MAIL_HOST,
+  smtpMailPassword: process.env.SMTP_MAIL_PASSWORD,
+  smtpMailUsername: process.env.SMTP_MAIL_USERNAME,
 }));

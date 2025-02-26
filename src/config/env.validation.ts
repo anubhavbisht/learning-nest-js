@@ -23,4 +23,7 @@ export default Joi.object({
   AWS_CLOUDFRONT: Joi.string().required(),
   AWS_ACCESS_KEY: Joi.string().required(),
   AWS_ACCESS_KEY_SECRET: Joi.string().required(),
+  SMTP_MAIL_HOST: Joi.string().required(),
+  SMTP_MAIL_USERNAME: Joi.string().required(),
+  SMTP_MAIL_PASSWORD: Joi.string().required(),
 });
